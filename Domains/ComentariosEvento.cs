@@ -9,8 +9,10 @@ namespace apiweb.eventplus.Domains
         [Key]
         public Guid IdComentario { get; set; } = Guid.NewGuid();
 
+        [Column(TypeName = "TEXT")]
         [Required(ErrorMessage = "Dê uma descrição")]
         public string? Descricao { get; set; }
+
         public bool? Exibe { get; set; }
 
         [Required(ErrorMessage = "Informe o usuário!")]

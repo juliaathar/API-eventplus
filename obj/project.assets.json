@@ -3446,17 +3446,8 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU3037",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Pacote 'Microsoft.NETCore.Platforms 1.1.0' da fonte 'C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\': O período de validade da assinatura principal do repositório expirou.",
-      "libraryId": "Microsoft.NETCore.Platforms"
-    }
-  ]
+  }
 }

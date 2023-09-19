@@ -11,7 +11,7 @@ namespace apiweb.eventplus.Domains
 
         [Column(TypeName = "DATE")]
         [Required(ErrorMessage = "Data obrigatória")]
-        public DateTime DataEvento { get; set; }
+        public DateTime? DataEvento { get; set; }
 
         [Column(TypeName = "VARCHAR(100)")]
         [Required(ErrorMessage = "Nome do evento obrigatório")]
@@ -20,7 +20,7 @@ namespace apiweb.eventplus.Domains
 
         [Column(TypeName = "TEXT")]
         [Required(ErrorMessage = "Descrição do evento obrigatório")]
-        public string Descricao { get; set; }
+        public string? Descricao { get; set; }
 
         [Required(ErrorMessage = "Tipo de evento obrigatório")]
         public Guid IdTipoEvento { get; set; }
