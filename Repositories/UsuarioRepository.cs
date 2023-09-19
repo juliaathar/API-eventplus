@@ -15,7 +15,26 @@ namespace apiweb.eventplus.Repositories
         }
         public Usuario BuscarPorEmailESenha(string email, string senha)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Usuario usuario = _eventContext.Usuario.FirstOrDefault(u => u.Email == email)!;
+
+                if (usuario != null)
+                {
+                    bool confere = Criptografia.CompararHash(senha, usuario.Senha!);
+
+                    if (confere)
+                    {
+                        return usuario;
+                    }
+                }
+                return null!;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public Usuario BuscarPorId(Guid id)
@@ -29,9 +48,15 @@ namespace apiweb.eventplus.Repositories
                     Nome = u.Nome,
                     TiposUsuario = new TiposUsuario
                     {
-                        Titulo = u.TiposUsuario.Titulo
+                        Titulo = u.TiposUsuario!.Titulo
                     }
                 }).FirstOrDefault(u => u.IdUsuario == id)!;
+
+                if(usuario != null)
+                {
+                    return usuario;
+                }
+                return null!;
             }
             catch (Exception)
             {
