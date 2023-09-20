@@ -17,7 +17,18 @@ namespace apiweb.eventplus.Repositories
         {
             try
             {
-                Usuario usuario = _eventContext.Usuario.FirstOrDefault(u => u.Email == email)!;
+                Usuario usuario = _eventContext.Usuario.Select(u => new Usuario
+                {
+                    IdUsuario = u.IdUsuario,
+                    Nome = u.Nome,
+                    Email = u.Email,
+                    Senha = u.Senha,
+                    TiposUsuario = new TiposUsuario
+                    {
+                        IdTipoUsuario= u.IdTipoUsuario,
+                        Titulo = u.TiposUsuario!.Titulo
+                    }
+                }).FirstOrDefault(u => u.Email == email)!;
 
                 if (usuario != null)
                 {
@@ -46,6 +57,8 @@ namespace apiweb.eventplus.Repositories
                 {
                     IdUsuario = u.IdUsuario,
                     Nome = u.Nome,
+                    Email= u.Email,
+                    Senha= u.Senha,
                     TiposUsuario = new TiposUsuario
                     {
                         Titulo = u.TiposUsuario!.Titulo

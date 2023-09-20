@@ -12,14 +12,24 @@ namespace apiweb.eventplus.Repositories
         {
             _eventContext = new EventContext();
         }
+
         public void Atualizar(Guid id, TiposUsuario tipoUsuario)
         {
-            throw new NotImplementedException();
+            TiposUsuario tipoBuscado = _eventContext.TiposUsuario.Find(id)!;
+
+            if (tipoBuscado == null)
+            {
+                tipoBuscado.Titulo = tipoUsuario.Titulo;
+            }
+
+            _eventContext.TiposUsuario.Update(tipoBuscado!);
+
+            _eventContext.SaveChanges();
         }
 
         public TiposUsuario BuscarPorId(Guid id)
         {
-            throw new NotImplementedException();
+            TiposUsuario tipo
         }
 
         public void Cadastrar(TiposUsuario tipoUsuario)
@@ -36,7 +46,7 @@ namespace apiweb.eventplus.Repositories
 
         public List<TiposUsuario> Listar()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
