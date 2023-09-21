@@ -17,9 +17,9 @@ namespace apiweb.eventplus.Repositories
         {
             TiposUsuario tipoBuscado = _eventContext.TiposUsuario.Find(id)!;
 
-            if (tipoBuscado == null)
+            if (tipoBuscado != null)
             {
-                tipoBuscado.Titulo = tipoUsuario.Titulo;
+                tipoBuscado.Titulo = tipoUsuario.Titulo!;
             }
 
             _eventContext.TiposUsuario.Update(tipoBuscado!);
@@ -29,7 +29,26 @@ namespace apiweb.eventplus.Repositories
 
         public TiposUsuario BuscarPorId(Guid id)
         {
-            TiposUsuario tipo
+            try
+            {
+                TiposUsuario tipoUsuario = _eventContext.TiposUsuario.Select(u => new TiposUsuario
+                {
+                    IdTipoUsuario = u.IdTipoUsuario,
+                    Titulo = u.Titulo
+
+                }).FirstOrDefault(u => u.IdTipoUsuario == id)!;
+
+                if (tipoUsuario != null)
+                {
+                    return tipoUsuario;
+                }
+                return null!;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public void Cadastrar(TiposUsuario tipoUsuario)
@@ -41,12 +60,16 @@ namespace apiweb.eventplus.Repositories
 
         public void Deletar(Guid id)
         {
-            throw new NotImplementedException();
+            TiposUsuario tipoBuscado = _eventContext.TiposUsuario.Find(id)!;
+
+            _eventContext.TiposUsuario.Remove(tipoBuscado);
+
+            _eventContext.SaveChanges();
         }
 
         public List<TiposUsuario> Listar()
         {
-            
+            return _eventContext.TiposUsuario.ToList();
         }
     }
 }

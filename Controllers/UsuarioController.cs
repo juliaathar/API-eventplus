@@ -34,5 +34,36 @@ namespace apiweb.eventplus.Controllers
                 return BadRequest(erro.Message);
             }
         }
+
+        [HttpGet]
+        public IActionResult Get (Guid id)
+        {
+            try
+            {
+               Usuario usuario = _usuarioRepository.BuscarPorId(id);
+
+                return Ok(usuario);
+            }
+            catch (Exception erro)
+            {
+
+                return BadRequest(erro.Message);
+            }
+        }
+
+        [HttpGet("BuscarPorEmailESenha")]
+        public IActionResult GetByEmailESenha(string email, string senha)
+        {
+            try
+            {
+                Usuario usuario = _usuarioRepository.BuscarPorEmailESenha(email, senha);
+
+                return Ok(usuario);
+            }
+            catch (Exception erro)
+            {
+                return BadRequest(erro.Message);
+            }
+        }
     }
 }
