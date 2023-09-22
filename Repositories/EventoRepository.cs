@@ -18,7 +18,7 @@ namespace apiweb.eventplus.Repositories
 
             if (tipo != null)
             {
-                tipo.Titulo = evento.Descricao!;
+                tipo.Descricao = evento.Descricao!;
             }
 
             _eventContext.Evento.Update(tipo!);
@@ -30,11 +30,23 @@ namespace apiweb.eventplus.Repositories
         {
             try
             {
-                Evento tipo = _eventContext.Evento.Select(u => new Evento
+                Evento evento = _eventContext.Evento.Select(u => new Evento
                 {
                     IdEvento = u.IdEvento,
-                    
-                })
+                    NomeEvento= u.NomeEvento,
+                    DataEvento = u.DataEvento,
+                    Descricao = u.Descricao,
+                    TiposEvento = new TiposEvento
+                    {
+                        IdTipoEvento = u.IdTipoEvento,
+                        Titulo = u.TiposEvento!.Titulo
+                    },
+                    Instituicao = new Instituicao
+                    {
+                        Id = u.IdInstituicao
+                    }
+                }).FirstOrDefault(u => u.IdEvento == id)!;
+                return null!;
             }
             catch (Exception)
             {
@@ -45,17 +57,23 @@ namespace apiweb.eventplus.Repositories
 
         public void Cadastrar(Evento evento)
         {
-            throw new NotImplementedException();
+            _eventContext.Evento.Add(evento);
+
+            _eventContext.SaveChanges();
         }
 
         public void Deletar(Guid id)
         {
-            throw new NotImplementedException();
+            Evento evento = _eventContext.Evento.Find(id)!;
+
+            _eventContext.Evento.Remove(evento);
+
+            _eventContext.SaveChanges();
         }
 
         public List<Evento> Listar()
         {
-            throw new NotImplementedException();
+            return _eventContext.Evento.ToList();
         }
     }
 }

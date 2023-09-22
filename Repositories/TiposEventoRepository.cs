@@ -13,14 +13,14 @@ namespace apiweb.eventplus.Repositories
         }
         public void Atualizar(Guid id, TiposEvento tipoEvento)
         {
-            TiposEvento tipoBuscado =  _eventContext.TiposEventos.Find(id);
+            TiposEvento tipoBuscado =  _eventContext.TiposEventos.Find(id)!;
 
             if (tipoBuscado != null)
             {
                 tipoBuscado.Titulo = tipoEvento.Titulo!;
             }
 
-            _eventContext.TiposEventos.Update(tipoBuscado);
+            _eventContext.TiposEventos.Update(tipoBuscado!);
 
             _eventContext.SaveChanges();
         }
