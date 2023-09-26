@@ -1,41 +1,55 @@
 ﻿using apiweb.eventplus.Domains;
 using apiweb.eventplus.Interfaces;
 using apiweb.eventplus.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace apiweb.eventplus.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Produces("application/json")]
-    public class TiposEventoController : ControllerBase
+    public class EventoController : ControllerBase
     {
         private IEventoRepository _eventoRepository;
-
         public EventoController()
         {
             _eventoRepository = new EventoRepository();
         }
 
-
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public IActionResult Post(Evento evento)
         {
             try
             {
                 _eventoRepository.Cadastrar(evento);
-
                 return StatusCode(201);
             }
-            catch (Exception erro)
+            catch (Exception e)
             {
+                return BadRequest(e.Message);
+            }
+        }
 
-                return BadRequest(erro.Message);
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
+        public IActionResult Delete(Guid id)
+        {
+            try
+            {
+                _eventoRepository.Deletar(id);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrador, Aluno")]
         public IActionResult Get()
         {
             try
@@ -44,19 +58,17 @@ namespace apiweb.eventplus.Controllers
             }
             catch (Exception e)
             {
-
                 return BadRequest(e.Message);
             }
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        [HttpGet("{id}")]
+        [Authorize(Roles = "Administrador")]
+        public IActionResult GetById(Guid id)
         {
             try
             {
-                _eventoRepository.Deletar(id);
-
-                return NoContent();
+                return Ok(_eventoRepository.BuscarPorId(id));
             }
             catch (Exception e)
             {
@@ -65,13 +77,13 @@ namespace apiweb.eventplus.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador")]
         public IActionResult Put(Guid id, Evento evento)
         {
             try
             {
                 _eventoRepository.Atualizar(id, evento);
-
-                return NoContent();
+                return StatusCode(201);
             }
             catch (Exception e)
             {
